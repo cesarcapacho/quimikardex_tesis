@@ -1,0 +1,49 @@
+{
+  "name": "MovimientoKardex",
+  "type": "object",
+  "properties": {
+    "reactivo_id": {
+      "type": "string",
+      "description": "ID del reactivo"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "entrada",
+        "salida"
+      ]
+    },
+    "cantidad": {
+      "type": "number",
+      "description": "Cantidad del movimiento (siempre positiva)"
+    },
+    "motivo": {
+      "type": "string",
+      "description": "Raz\u00f3n del movimiento"
+    },
+    "responsable": {
+      "type": "string",
+      "description": "Nombre del responsable"
+    },
+    "lote": {
+      "type": "string"
+    },
+    "proveedor": {
+      "type": "string"
+    },
+    "fecha_vencimiento": {
+      "type": "string",
+      "format": "date"
+    },
+    "observaciones": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "reactivo_id",
+    "tipo",
+    "cantidad",
+    "motivo",
+    "responsable"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "Profile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to auth user id"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "profesor",
+        "estudiante"
+      ],
+      "default": "estudiante"
+    },
+    "documento": {
+      "type": "string",
+      "description": "Documento de identidad"
+    },
+    "centro_formacion": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "full_name",
+    "role"
+  ]
+}
