@@ -4,7 +4,7 @@ import {
   LayoutDashboard, FlaskConical, ArrowLeftRight, FileText, 
   Users, LogOut, ChevronLeft, Menu, X
 } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { supabase } from '@/lib/supabaseClient';
 import { useIsProfesor } from '@/hooks/useProfile';
 import { Button } from '@/components/ui/button';
 
@@ -25,9 +25,10 @@ export default function Sidebar({ collapsed, setCollapsed }) {
 
   const items = isProfesor ? [...NAV_ITEMS, ...PROFESOR_ITEMS] : NAV_ITEMS;
 
-  const handleLogout = () => {
-    base44.auth.logout('/login');
-  };
+  const handleLogout = async () => {
+  await supabase.auth.signOut();
+  window.location.href = "/login";
+};
 
   return (
     <>

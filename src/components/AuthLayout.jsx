@@ -8,7 +8,7 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
           {showLogo ? (
             <div className="flex justify-center mb-4">
               <img
-                src="https://media.base44.com/images/public/6a460b45d82d198856d9e1c3/e9b73a28e_logoSena.png"
+                src="src/assets/logoSena.png"
                 alt="Logo SENA"
                 className="w-24 h-24 object-contain"
               />
