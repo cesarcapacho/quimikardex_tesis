@@ -1,34 +1,36 @@
-import { Toaster } from "@/components/ui/toaster"
-import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import PageNotFound from './lib/PageNotFound';
-import { AuthProvider, useAuth } from '@/lib/AuthContext';
-import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import ScrollToTop from './components/ScrollToTop';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import { Toaster } from "@/components/ui/toaster";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClientInstance } from "@/lib/query-client";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Auth pages
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
-import ForgotPassword from '@/pages/ForgotPassword';
-import ResetPassword from '@/pages/ResetPassword';
+import { AuthProvider, useAuth } from "@/lib/AuthContext";
 
-// App pages
-import AppLayout from '@/components/layout/AppLayout';
-import Dashboard from '@/pages/Dashboard';
-import ReactivosList from '@/pages/ReactivosList';
-import ReactivoCreate from '@/pages/ReactivoCreate';
-import ReactivoDetail from '@/pages/ReactivoDetail';
-import ReactivoEdit from '@/pages/ReactivoEdit';
-import Kardex from '@/pages/Kardex';
-import Reportes from '@/pages/Reportes';
-import Usuarios from '@/pages/Usuarios';
+import ScrollToTop from "@/components/ScrollToTop";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
-const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+import PageNotFound from "@/lib/PageNotFound";
 
-  if (isLoadingPublicSettings || isLoadingAuth) {
+// Auth
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+
+// App
+import Dashboard from "@/pages/Dashboard";
+import ReactivosList from "@/pages/ReactivosList";
+import ReactivoCreate from "@/pages/ReactivoCreate";
+import ReactivoDetail from "@/pages/ReactivoDetail";
+import ReactivoEdit from "@/pages/ReactivoEdit";
+import Kardex from "@/pages/Kardex";
+import Reportes from "@/pages/Reportes";
+import Usuarios from "@/pages/Usuarios";
+
+function AuthenticatedApp() {
+  const { loading } = useAuth();
+
+  if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
@@ -36,23 +38,22 @@ const AuthenticatedApp = () => {
     );
   }
 
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      navigateToLogin();
-      return null;
-    }
-  }
-
   return (
     <Routes>
+      {/* Públicas */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
 
-      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+      {/* Protegidas */}
+      <Route
+        element={
+          <ProtectedRoute
+            unauthenticatedElement={<Navigate to="/login" replace />}
+          />
+        }
+      >
         <Route element={<AppLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/reactivos" element={<ReactivosList />} />
@@ -68,9 +69,9 @@ const AuthenticatedApp = () => {
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
-};
+}
 
-function App() {
+export default function App() {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
@@ -81,7 +82,5 @@ function App() {
         <Toaster />
       </QueryClientProvider>
     </AuthProvider>
-  )
+  );
 }
-
-export default App
