@@ -9,7 +9,7 @@ import StockBadge from '@/components/layout/StockBadge';
 import MovimientoForm from '@/components/kardex/MovimientoForm';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useReactivo } from '@/hooks/useReactivos';
-import { useMovimientos, useCreateMovimiento, useDeleteMovimiento, calcularStock } from '@/hooks/useMovimientos';
+import { useMovimientos, useCreateMovimiento, useDeleteMovimiento,calcularStock } from '@/hooks/useMovimientos';
 import { useIsProfesor } from '@/hooks/useProfile';
 import { toast } from '@/components/ui/use-toast';
 import moment from 'moment';
@@ -52,11 +52,25 @@ export default function ReactivoDetail() {
 
   const stock = calcularStock(movimientos);
 
-  const handleMovimiento = async (data) => {
+const handleMovimiento = async (data) => {
+  try {
     await createMov.mutateAsync(data);
-    toast({ title: 'Movimiento registrado' });
+
+    toast({
+      title: "Movimiento registrado",
+    });
+
     setShowForm(false);
-  };
+  } catch (error) {
+    console.error(error);
+
+    toast({
+      title: "Error",
+      description: error.message,
+      variant: "destructive",
+    });
+  }
+};
 
   return (
     <div className="space-y-6">
@@ -134,8 +148,8 @@ export default function ReactivoDetail() {
                       <th className="text-left px-4 py-2 font-medium text-muted-foreground">Fecha</th>
                       <th className="text-left px-4 py-2 font-medium text-muted-foreground">Tipo</th>
                       <th className="text-right px-4 py-2 font-medium text-muted-foreground">Cantidad</th>
-                      <th className="text-left px-4 py-2 font-medium text-muted-foreground hidden sm:table-cell">Responsable</th>
-                      <th className="text-left px-4 py-2 font-medium text-muted-foreground hidden md:table-cell">Motivo</th>
+                      
+                      <th className="text-right px-4 py-2 font-medium text-muted-foreground hidden md:table-cell">Motivo</th>
                       {isProfesor && <th className="px-4 py-2" />}
                     </tr>
                   </thead>
@@ -143,7 +157,7 @@ export default function ReactivoDetail() {
                     {movimientos.map((m) => (
                       <tr key={m.id} className="hover:bg-muted/20">
                         <td className="px-4 py-2.5 text-muted-foreground text-xs">
-                          {moment(m.created_date).format('DD/MM/YYYY HH:mm')}
+                          {moment(m.created_at).format('DD/MM/YYYY HH:mm')}
                         </td>
                         <td className="px-4 py-2.5">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
@@ -159,7 +173,7 @@ export default function ReactivoDetail() {
                         }`}>
                           {m.tipo === 'entrada' ? '+' : '-'}{m.cantidad}
                         </td>
-                        <td className="px-4 py-2.5 hidden sm:table-cell">{m.responsable}</td>
+                     
                         <td className="px-4 py-2.5 text-muted-foreground hidden md:table-cell truncate max-w-[200px]">{m.motivo}</td>
                         {isProfesor && (
                           <td className="px-4 py-2.5 text-right">

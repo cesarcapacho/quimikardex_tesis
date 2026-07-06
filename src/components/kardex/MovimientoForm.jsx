@@ -12,7 +12,6 @@ export default function MovimientoForm({ reactivoId, stockActual, unidad, onSubm
     tipo: 'entrada',
     cantidad: '',
     motivo: '',
-    responsable: '',
     lote: '',
     proveedor: '',
     fecha_vencimiento: '',
@@ -30,10 +29,6 @@ export default function MovimientoForm({ reactivoId, stockActual, unidad, onSubm
     }
     if (!form.motivo.trim()) {
       toast({ title: 'El motivo es obligatorio', variant: 'destructive' });
-      return;
-    }
-    if (!form.responsable.trim()) {
-      toast({ title: 'El responsable es obligatorio', variant: 'destructive' });
       return;
     }
     if (form.tipo === 'salida' && cantidad > stockActual) {
@@ -66,10 +61,6 @@ export default function MovimientoForm({ reactivoId, stockActual, unidad, onSubm
           {form.tipo === 'salida' && (
             <p className="text-xs text-muted-foreground">Stock actual: {stockActual} {unidad}</p>
           )}
-        </div>
-        <div className="space-y-2">
-          <Label>Responsable *</Label>
-          <Input value={form.responsable} onChange={(e) => set('responsable', e.target.value)} placeholder="Nombre completo" />
         </div>
         <div className="space-y-2">
           <Label>Motivo *</Label>

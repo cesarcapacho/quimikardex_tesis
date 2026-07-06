@@ -90,7 +90,6 @@ export default function Reportes() {
       doc.text('Tipo', 55, y);
       doc.text('Cantidad', 80, y);
       doc.text('Saldo', 105, y);
-      doc.text('Responsable', 125, y);
       doc.text('Motivo', 165, y);
       doc.setFont(undefined, 'normal');
       y += 2;
@@ -105,7 +104,6 @@ export default function Reportes() {
         doc.text(m.tipo === 'entrada' ? 'Entrada' : 'Salida', 55, y);
         doc.text(`${m.tipo === 'entrada' ? '+' : '-'}${m.cantidad}`, 80, y);
         doc.text(String(saldo), 105, y);
-        doc.text((m.responsable || '').substring(0, 20), 125, y);
         doc.text((m.motivo || '').substring(0, 20), 165, y);
         y += 6;
       });
