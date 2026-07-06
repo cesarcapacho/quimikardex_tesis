@@ -27,12 +27,6 @@ import moment from 'moment';
 
 import { supabase } from "@/lib/supabaseClient";
 
-console.log("USER DEBUG START");
-
-supabase.auth.getUser().then(({ data, error }) => {
-  console.log("USER =>", data.user);
-  console.log("ERROR =>", error);
-});
 export default function Kardex() {
   const isProfesor = useIsProfesor();
   const { data: reactivos } = useReactivos();
