@@ -1,5 +1,5 @@
 import React from "react";
-
+import logoSena from "@/assets/logoSena.png";
 export default function AuthLayout({ icon: Icon, title, subtitle, footer, children, showLogo = false }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8">
